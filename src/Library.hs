@@ -24,8 +24,8 @@ type Equipo = [Hechicero]
 
 equipoA = [tito, nobara, raul]
 
-equipoEstaPreparado :: Equipo->Bool
-equipoEstaPreparado equipo = length equipo > 3
+estaPreparado :: Equipo->Bool
+estaPreparado equipo = length equipo > 3
  
 subirDeGrado :: Hechicero -> Hechicero
 subirDeGrado hechicero | esEspecial hechicero = hechicero
@@ -38,3 +38,13 @@ esPrestigioso hechicero = elem (clan hechicero) clanesPrestigiosos
 
 esInvencible :: Equipo->Bool
 esInvencible = any esEspecial 
+
+favoritoDelLider :: Equipo->Bool
+favoritoDelLider = all esPrestigioso
+
+losExpertos :: Equipo -> Equipo
+losExpertos = map tieneExperiencia
+
+puedeConTodo :: Equipo -> Bool
+puedeConTodo equipo = esInvencible equipo || estaPreparado equipo
+

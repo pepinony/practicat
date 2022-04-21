@@ -13,7 +13,7 @@ data Hechicero = Hechicero {
 nobara = Hechicero 1 "Kugisaki" 3
 
 esEspecial :: Hechicero->Bool
-esEspecial hehcicero = grado hechicero == 0
+esEspecial hechicero = grado hechicero == 0
 
 tieneExperiencia :: Hechicero -> Bool
 tieneExperiencia hechicero = antiguedad hechicero > 1
@@ -25,9 +25,9 @@ equipoEstaPreparado equipo = length equipo > 3
  
 subirDeGrado :: Hechicero -> Hechicero
 subirDeGrado hechicero | esEspecial hechicero = hechicero
-                       | otherwise = hechicero {grado hechicero = (grado hechicero - 1)}
+                       | otherwise = hechicero{grado = grado hechicero - 1}
                        
-clanesPrestigioso = ["Gojo", "Kamo", "Zenine"]
+clanesPrestigiosos = ["Gojo", "Kamo", "Zenine"]
 
 esPrestigioso:: Hechicero->Bool
-esPrestigioso hechicero = elem clan hechicero clanesPrestigiosos
+esPrestigioso hechicero = elem (clan hechicero) clanesPrestigiosos

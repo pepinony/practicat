@@ -37,14 +37,28 @@ esPrestigioso:: Hechicero->Bool
 esPrestigioso hechicero = elem (clan hechicero) clanesPrestigiosos
 
 esInvencible :: Equipo->Bool
-esInvencible = any esEspecial 
+esInvencible equipo = any esEspecial equipo
 
 favoritoDelLider :: Equipo->Bool
-favoritoDelLider = all esPrestigioso
+favoritoDelLider equipo = all esPrestigioso equipo
 
 losExpertos :: Equipo -> Equipo
-losExpertos = map tieneExperiencia
+losExpertos equipo = filter tieneExperiencia equipo
 
 puedeConTodo :: Equipo -> Bool
 puedeConTodo equipo = esInvencible equipo || estaPreparado equipo
 
+powerUp :: Equipo -> Equipo
+powerUp equipo = map subirDeGrado equipo
+
+cuantosEspeciales :: Equipo -> Number
+cuantosEspeciales = length.losEspeciales
+
+losEspeciales :: Equipo-> Equipo
+losEspeciales equipo = filter esEspecial equipo
+
+promedioDeGrados :: Equipo -> Number
+promedioDeGrados equipo = sum (losGrados equipo) / length equipo
+
+losGrados :: Equipo->[Number]
+losGrados equipo = map grado equipo

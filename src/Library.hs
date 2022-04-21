@@ -11,6 +11,8 @@ data Hechicero = Hechicero {
 } deriving (Eq, Show)
 
 nobara = Hechicero 1 "Kugisaki" 3
+tito = Hechicero 3 "Hokague" 1
+raul = Hechicero 200 "Ninja" 0
 
 esEspecial :: Hechicero->Bool
 esEspecial hechicero = grado hechicero == 0
@@ -19,6 +21,8 @@ tieneExperiencia :: Hechicero -> Bool
 tieneExperiencia hechicero = antiguedad hechicero > 1
 
 type Equipo = [Hechicero]
+
+equipoA = [tito, nobara, raul]
 
 equipoEstaPreparado :: Equipo->Bool
 equipoEstaPreparado equipo = length equipo > 3
@@ -31,3 +35,6 @@ clanesPrestigiosos = ["Gojo", "Kamo", "Zenine"]
 
 esPrestigioso:: Hechicero->Bool
 esPrestigioso hechicero = elem (clan hechicero) clanesPrestigiosos
+
+esInvencible :: Equipo->Bool
+esInvencible = any esEspecial 

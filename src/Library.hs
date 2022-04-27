@@ -62,3 +62,9 @@ promedioDeGrados equipo = sum (losGrados equipo) / length equipo
 
 losGrados :: Equipo->[Number]
 losGrados equipo = map grado equipo
+
+calcular :: (Number, Number)->(Number, Number)
+calcular (x, y) | even x && even y = (x*2, y)
+                | not (even x) && not (even y)= (x, y+1)
+                | not (even x) && even y = (x,y)
+                | even x && not (even y) = (x*2, x+1)

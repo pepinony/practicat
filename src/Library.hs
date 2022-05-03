@@ -72,8 +72,20 @@ calcular (x, y) | even x && even y = (x*2, y)
 
 data Persona = Persona {nombre :: String, edad :: Number, nivelStress :: Number, preferencias :: (String, Number), amigues :: [String]} deriving (Show,Eq)
 
+desenchufarse :: (Persona -> Persona) -> Persona -> Bool
+desenchufarse destino persona = stress (destino persona) < stress persona
+
+enchufarseEspecial :: (Persona -> Persona) -> Persona -> Bool
+enchufarseEspecial destino persona = stress (destino persona) == snd (preferencia persona)
+
+socializar :: (Persona -> Persona) -> Persona -> Bool
+socializar destino persona = cantidadAmigues(destino persona) > cantidadAmigues persona
+
+sinPretensiones :: (Persona -> Persona) -> Persona -> Bool
+sinPretensiones destino persona = True
+
 seCumpleLapreferencia :: (Persona->Persona)->Persona->Bool
-preferencias persona destino |fst (preferencia persona) == "Desenchufarse" = stress (destino persona) < stress persona
-                             |fst (preferencia persona) == "Socializar" = length (amigues (destino persona)) > length (amigues persona)
-                             |fst (preferencia persona) == "EnchufarceEspecial" = stress (destino persona) == snd (preferencia persona)
+preferencias persona destino |fst (preferencia persona) == "Desenchufarse" = desenchufarse destino persona
+                             |fst (preferencia persona) == "Socializar" = socializar destino persona
+                             |fst (preferencia persona) == "EnchufarceEspecial" = enchufarseEspecial destino persona
                              |fst (preferencia persona) == "SinPretensiones" = True

@@ -70,9 +70,9 @@ calcular (x, y) | even x && even y = (x*2, y)
                 | even x && not (even y) = (x*2, x+1)
 ----------------------
 
-data Humano = Persona {nombre :: String, edad :: Number, nivelStress :: Number, preferencias :: (String, Number), amigues :: [String]} deriving (Show,Eq)
+data Persona = Persona {nombre :: String, edad :: Number, nivelStress :: Number, preferencias :: (String, Number), amigues :: [String]} deriving (Show,Eq)
 
-seCumpleLapreferencia :: Humano->(String -> Number -> Humano -> Bool -> Humano)-> Number
+seCumpleLapreferencia :: (Persona->Persona)->Persona->Bool
 preferencias persona destino |fst (preferencia persona) == "Desenchufarse" = stress (destino persona) < stress persona
                              |fst (preferencia persona) == "Socializar" = length (amigues (destino persona)) > length (amigues persona)
                              |fst (preferencia persona) == "EnchufarceEspecial" = stress (destino persona) == snd (preferencia persona)

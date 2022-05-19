@@ -76,3 +76,16 @@ filtrar function lista = foldr (aplicacion function) [] lista
 aplicacion :: (a->Bool)->a->[a]->[a]
 aplicacion function x y| function x = (:) x y
                        | otherwise = y 
+
+maximoSegun :: (a->Number)->[a]->a
+maximoSegun function lista = foldl1 (maxSegun function) lista
+
+maxSegun :: (a->Number)->a->a->a
+maxSegun function x y | max (function y) (function x)== function x = x
+                      | otherwise = y
+
+aparearCon :: (a->a->b)->[a]->[a]->[b]
+aparearCon function lista1 lista2 = foldr aparea [] (zip lista1 lista2)
+                                    where aparea= (:).(operarSegun function)
+operarSegun :: (a->a->b)->(a,a)->b
+operarSegun function x = function (fst x) (snd x)

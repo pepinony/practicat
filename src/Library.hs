@@ -68,24 +68,11 @@ calcular (x, y) | even x && even y = (x*2, y)
                 | not (even x) && not (even y)= (x, y+1)
                 | not (even x) && even y = (x,y)
                 | even x && not (even y) = (x*2, x+1)
-----------------------
 
-data Persona = Persona {nombre :: String, edad :: Number, nivelStress :: Number, preferencias :: (String, Number), amigues :: [String]} deriving (Show,Eq)
+------------------------
+filtrar :: (a->Bool)->[a]->[a]
+filtrar function lista = foldr (aplicacion function) [] lista
 
-desenchufarse :: (Persona -> Persona) -> Persona -> Bool
-desenchufarse destino persona = stress (destino persona) < stress persona
-
-enchufarseEspecial :: (Persona -> Persona) -> Persona -> Bool
-enchufarseEspecial destino persona = stress (destino persona) == snd (preferencia persona)
-
-socializar :: (Persona -> Persona) -> Persona -> Bool
-socializar destino persona = cantidadAmigues(destino persona) > cantidadAmigues persona
-
-sinPretensiones :: (Persona -> Persona) -> Persona -> Bool
-sinPretensiones destino persona = True
-
-seCumpleLapreferencia :: (Persona->Persona)->Persona->Bool
-preferencias persona destino |fst (preferencia persona) == "Desenchufarse" = desenchufarse destino persona
-                             |fst (preferencia persona) == "Socializar" = socializar destino persona
-                             |fst (preferencia persona) == "EnchufarceEspecial" = enchufarseEspecial destino persona
-                             |fst (preferencia persona) == "SinPretensiones" = True
+aplicacion :: (a->Bool)->a->[a]->[a]
+aplicacion function x y| function x = (:) x y
+                       | otherwise = y 

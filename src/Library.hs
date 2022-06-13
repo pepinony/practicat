@@ -127,8 +127,8 @@ otroMas = Horrocrux{
     denominacion = "asd",
     mago = asd
 }
-asd = Mago{
-    nombre = "asdd",
+lucius = Mago{
+    nombre = "Lucius Malfloy",
     horrocruxes = [otroMas]
 }
 

@@ -153,8 +153,8 @@ destruirHorrocruxesVariosMago (m:ms) horrocruxs = [destruirHorrocruxes (horrocru
 horrocruxesSegunMago :: Mago->[Horrocrux]->[Horrocrux]
 horrocruxesSegunMago magoTenebroso horrocruxs = filter ((magoTenebroso==).mago) horrocruxs
 
-MagoSegunHorrocruxes :: [Horrocrux]->[Mago]
-MagoSegunHorrocruxes horrocruxs = sinRepetidos (map mago horrocruxs)
+magoSegunHorrocruxes :: [Horrocrux]->[Mago]
+magoSegunHorrocruxes horrocruxs = sinRepetidos (map mago horrocruxs)
 
 sinRepetidos :: Eq a => [a]->[a]
 sinRepetidos [z] = [z]
@@ -179,7 +179,7 @@ finalFeliz1 :: [Horrocrux]->Bool
 finalFeliz1 = vencerMagoTenebroso (horrocruxes srTenebroso)
 
 finalFeliz2 :: [Horrocrux]->Bool
-finalFeliz2 horrocruxs = (([]==).horrocruxes.separarSrTenebroso.(destruirHorrocruxesVariosMago (MagoSegunHorrocruxes horrocruxs))) horrocruxs
+finalFeliz2 horrocruxs = (([]==).horrocruxes.separarSrTenebroso.(destruirHorrocruxesVariosMago (magoSegunHorrocruxes horrocruxs))) horrocruxs
 
 separarSrTenebroso :: [Mago]->Mago
 separarSrTenebroso = head.(filter (("Voldemort"==).nombre))

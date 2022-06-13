@@ -89,3 +89,97 @@ aparearCon function lista1 lista2 = foldr aparea [] (zip lista1 lista2)
                                     where aparea= (:).(operarSegun function)
 operarSegun :: (a->a->b)->(a,a)->b
 operarSegun function x = function (fst x) (snd x)
+
+----------------------------
+
+--El parcial q no fue
+
+data Mago = Mago {
+    nombre::String,
+    horrocruxes:: [Horrocrux]
+}deriving(Eq,Show)
+
+data Horrocrux = Horrocrux {
+    denominacion::String,
+    mago::Mago
+}
+instance Show Horrocrux where
+    show (horrocrux)= show (denominacion horrocrux)
+instance Eq Horrocrux where
+    h1==h2 = denominacion h1 == denominacion h2
+
+diadema = Horrocrux {
+    denominacion = "Ravenclow",
+    mago = srTenebroso
+}
+
+diario = Horrocrux {
+    denominacion = "Diario de Tom Riddle",
+    mago = srTenebroso
+}
+
+harry = Horrocrux {
+    denominacion = "Harry Postre",
+    mago = srTenebroso
+}
+
+otroMas = Horrocrux{
+    denominacion = "asd",
+    mago = asd
+}
+asd = Mago{
+    nombre = "asdd",
+    horrocruxes = [otroMas]
+}
+
+srTenebroso = Mago {
+    nombre = "Voldemort",
+    horrocruxes = [diadema, diario, harry]
+}
+
+destruir :: Horrocrux->Mago
+destruir horrocrux = (mago horrocrux){horrocruxes=borrarUno horrocrux (horrocruxes (mago horrocrux))}
+
+borrarUno :: Eq a => a->[a]->[a]
+borrarUno elemento lista = filter (elemento/=) lista
+
+destruirHorrocruxes :: [Horrocrux]->Mago
+destruirHorrocruxes horrocruxs = (mago (head horrocruxs)){horrocruxes = ((intersectarVarios.(map horrocruxes).(map destruir)) horrocruxs)}
+
+destruirHorrocruxesVariosMago :: [Mago]->[Horrocrux]->[Mago]
+destruirHorrocruxesVariosMago [] _ = []
+destruirHorrocruxesVariosMago (m:ms) horrocruxs = [destruirHorrocruxes (horrocruxesSegunMago m horrocruxs)] ++ destruirHorrocruxesVariosMago ms horrocruxs 
+
+horrocruxesSegunMago :: Mago->[Horrocrux]->[Horrocrux]
+horrocruxesSegunMago magoTenebroso horrocruxs = filter ((magoTenebroso==).mago) horrocruxs
+
+MagoSegunHorrocruxes :: [Horrocrux]->[Mago]
+MagoSegunHorrocruxes horrocruxs = sinRepetidos (map mago horrocruxs)
+
+sinRepetidos :: Eq a => [a]->[a]
+sinRepetidos [z] = [z]
+sinRepetidos (x:xs) | elem x xs = sinRepetidos xs 
+                    | otherwise = sinRepetidos xs ++ [x]
+
+intersectarVarios :: Eq a =>[[a]]->[a]
+intersectarVarios listas = foldr1 intersectar listas
+
+intersectar :: Eq a=> [a]->[a]->[a]
+intersectar [] _ = []
+intersectar _ [] = []
+intersectar (x:xs) lista | elem x lista= [x] ++ intersectar xs lista
+                         | otherwise = intersectar xs lista
+
+--Primero hice finalFeliz1 pero como no usua la funcion destruir agregue la funcion finalFeliz2 y deja las dos pq me gusto como quedo finalFeliz1
+vencerMagoTenebroso :: [Horrocrux]->[Horrocrux]->Bool
+vencerMagoTenebroso [] _ = True
+vencerMagoTenebroso (primero:restoHorrocrux) horrocruxDestruidos = elem primero horrocruxDestruidos && vencerMagoTenebroso restoHorrocrux horrocruxDestruidos
+
+finalFeliz1 :: [Horrocrux]->Bool
+finalFeliz1 = vencerMagoTenebroso (horrocruxes srTenebroso)
+
+finalFeliz2 :: [Horrocrux]->Bool
+finalFeliz2 horrocruxs = (([]==).horrocruxes.separarSrTenebroso.(destruirHorrocruxesVariosMago (MagoSegunHorrocruxes horrocruxs))) horrocruxs
+
+separarSrTenebroso :: [Mago]->Mago
+separarSrTenebroso = head.(filter (("Voldemort"==).nombre))

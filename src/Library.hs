@@ -183,3 +183,47 @@ finalFeliz2 horrocruxs = (([]==).horrocruxes.separarSrTenebroso.(destruirHorrocr
 
 separarSrTenebroso :: [Mago]->Mago
 separarSrTenebroso = head.(filter (("Voldemort"==).nombre))
+
+/-
+Punto 1)
+Hacer el predicado nacionalidad/2: ana, belu y chiqui son de nacionalidad argentina, dante es de uruguay y eli de brasil.
+Punto 2)
+Hacer el predicado seguroVa/2: Relaciona una persona y una presentación y es cierta cuando esa persona podria asistir fácilmente a la presentación.
+- Para los show masivos si el país coincide con tu nacionalidad
+- Para los vivos de instagram si se espera una duración menor a 3 horas
+- No hay asistencia asegurada para los eventos propios.
+Punto 3)
+Hacer el predicado bandaCarita/1, que se cumple para aquella banda con la presentación más cara.
+- Los show masivos cuestan 500 monedas por cada banda.
+- Los show propios cuestan 1 moneda por cada lugar disponible.
+- Los vivos de instagram cuestan 1 moneda por hora por cada 200 seguidores.
+*/
+
+nacionalidad(ana,argentina).
+nacionalidad(chiqui,argentina).
+nacionalidad(belu,argentina).
+nacionalidad(dante,uruguay).
+nacionalidad(eli,brasil).
+
+seguroVa(Persona,masivo(_,_,Pais)):-
+    nacionalidad(Persona,Pais).
+
+seguroVa(Persona, vivoIG(_,Duracion,_)):-
+    nacionalidad(Persona,_),
+    Duracion=<180.
+
+
+
+bandaCarita(Banda):-
+    forall(hace(_,Evento),cuantoVale(Evento,Valor)).
+
+cuantoVale(masivo(_,Cantidad,_),Valor):-
+    is(Valor, Cantidad * 500).
+
+cuantoVale(propio(Cantidad),Valor):-
+    is(Valor, Cantidad).
+
+cuantoVale(vivoIG(_,Duracion,Seguidores),Valor):-
+    is(Valor, 0.016666666666666666667*Seguidores*Duracion*0.005).
+
+-/
